@@ -1,0 +1,250 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@theme inline{
+  --color-cec-primary: #2563eb;
+  --color-cec-secondary: #64748b;
+  --color-cec-accent: #7c3aed;
+  --color-cec-accent-secondary: #06b6d4;
+  --color-cec-accent-tertiary: #10b981;
+  --color-cec-accent-quaternary: #f59e0b;
+  --color-cec-accent-quinary: #ef4444;
+  --color-cec-accent-senary: #ec4899;
+  --color-cec-accent-septenary: #8b5cf6;
+}
+
+/* Bubble Animations */
+@keyframes float {
+  0% {
+    transform: translateY(100vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-100px) translateX(100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes float-small {
+  0% {
+    transform: translateY(100vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.6;
+  }
+  85% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-50px) translateX(50px) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+.bubble {
+  animation: float linear infinite;
+  will-change: transform;
+}
+
+.bubble-small {
+  animation: float-small linear infinite;
+  will-change: transform;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #2563eb, #7c3aed);
+}
+
+/* Custom Cursor */
+* {
+  cursor: none;
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: transform 0.1s ease;
+}
+
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 4px;
+  background: #ffffff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease;
+}
+
+.cursor-hover {
+  transform: scale(2.5);
+  background: linear-gradient(45deg, #ef4444, #ec4899);
+  mix-blend-mode: normal;
+}
+
+.cursor-click {
+  transform: scale(0.8);
+  background: linear-gradient(45deg, #10b981, #06b6d4);
+}
+
+.cursor-text {
+  transform: scale(1.5);
+  background: linear-gradient(45deg, #f59e0b, #8b5cf6);
+}
+
+.cursor-magnetic {
+  transform: scale(1.2);
+  background: linear-gradient(45deg, #06b6d4, #3b82f6);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+/* Cursor trail effect */
+.cursor-trail {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: rgba(139, 92, 246, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  animation: cursorTrail 0.6s ease-out forwards;
+}
+
+@keyframes cursorTrail {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.1);
+  }
+}
+
+/* Chat Box Animations */
+.chat-bubble {
+  animation: chatBubbleIn 0.3s ease-out;
+}
+
+@keyframes chatBubbleIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.message-item {
+  animation: messageSlideIn 0.4s ease-out;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Typing indicator animation */
+.typing-dot {
+  animation: typingBounce 1.4s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typingBounce {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Page Transitions */
+.page-transition {
+  animation: pageEnter 0.6s ease-out;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Navigation hover effects */
+.navbar .btn:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+
+/* Active navigation state */
+.navbar .btn.active {
+  background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+  color: white;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+/* Hide cursor on mobile */
+@media (max-width: 768px) {
+  .custom-cursor,
+  .cursor-dot {
+    display: none;
+  }
+  
+  * {
+    cursor: auto;
+  }
+}
