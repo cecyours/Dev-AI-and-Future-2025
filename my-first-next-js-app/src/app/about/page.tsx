@@ -15,10 +15,12 @@ export default function AboutPage() {
 
       // Animate cards
       const cards = pageRef.current?.querySelectorAll('.animate-card');
-      gsap.fromTo(cards,
-        { opacity: 0, y: 100 },
-        { opacity: 1, y: 0, duration: 0.6, stagger: 0.2, ease: "power2.out", delay: 0.3 }
-      );
+      if (cards) {
+        gsap.fromTo(cards,
+          { opacity: 0, y: 100 },
+          { opacity: 1, y: 0, duration: 0.6, stagger: 0.2, ease: "power2.out", delay: 0.3 }
+        );
+      }
     }, pageRef);
 
     return () => ctx.revert();
@@ -33,7 +35,7 @@ export default function AboutPage() {
             About <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Dev & AI</span>
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            We're passionate about the intersection of development and artificial intelligence, 
+            We&apos;re passionate about the intersection of development and artificial intelligence, 
             creating innovative solutions that shape the future of technology.
           </p>
         </div>

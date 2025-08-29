@@ -19,8 +19,6 @@ export default function Home() {
   const featureCardsRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const cursorDotRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Mouse interaction for bubbles
@@ -52,87 +50,7 @@ export default function Home() {
 
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Custom cursor animation
-    const handleCursorMove = (e: MouseEvent) => {
-      if (cursorRef.current && cursorDotRef.current) {
-        gsap.to(cursorRef.current, {
-          x: e.clientX - 10,
-          y: e.clientY - 10,
-          duration: 0.1,
-          ease: "power2.out"
-        });
-        
-        gsap.to(cursorDotRef.current, {
-          x: e.clientX - 2,
-          y: e.clientY - 2,
-          duration: 0.15,
-          ease: "power2.out"
-        });
 
-        // Create cursor trail effect
-        if (Math.random() > 0.7) { // 30% chance to create trail
-          const trail = document.createElement('div');
-          trail.className = 'cursor-trail';
-          trail.style.left = e.clientX - 3 + 'px';
-          trail.style.top = e.clientY - 3 + 'px';
-          document.body.appendChild(trail);
-          
-          setTimeout(() => {
-            document.body.removeChild(trail);
-          }, 600);
-        }
-      }
-    };
-
-    const handleCursorHover = () => {
-      if (cursorRef.current) {
-        cursorRef.current.classList.add('cursor-hover');
-      }
-    };
-
-    const handleCursorLeave = () => {
-      if (cursorRef.current) {
-        cursorRef.current.classList.remove('cursor-hover');
-      }
-    };
-
-    const handleCursorClick = () => {
-      if (cursorRef.current) {
-        cursorRef.current.classList.add('cursor-click');
-        setTimeout(() => {
-          cursorRef.current?.classList.remove('cursor-click');
-        }, 150);
-      }
-    };
-
-    const handleTextHover = () => {
-      if (cursorRef.current) {
-        cursorRef.current.classList.add('cursor-text');
-      }
-    };
-
-    const handleTextLeave = () => {
-      if (cursorRef.current) {
-        cursorRef.current.classList.remove('cursor-text');
-      }
-    };
-
-    window.addEventListener('mousemove', handleCursorMove);
-    window.addEventListener('click', handleCursorClick);
-
-    // Add hover effects to interactive elements
-    const interactiveElements = document.querySelectorAll('button, a, .feature-card, .timeline-item');
-    interactiveElements.forEach(element => {
-      element.addEventListener('mouseenter', handleCursorHover);
-      element.addEventListener('mouseleave', handleCursorLeave);
-    });
-
-    // Add text hover effects
-    const textElements = document.querySelectorAll('h1, h2, h3, p');
-    textElements.forEach(element => {
-      element.addEventListener('mouseenter', handleTextHover);
-      element.addEventListener('mouseleave', handleTextLeave);
-    });
 
     const ctx = gsap.context(() => {
       // Hero section entrance animation
@@ -243,29 +161,11 @@ export default function Home() {
     return () => {
       ctx.revert();
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mousemove', handleCursorMove);
-      window.removeEventListener('click', handleCursorClick);
-      
-      // Remove event listeners from elements
-      const interactiveElements = document.querySelectorAll('button, a, .feature-card, .timeline-item');
-      interactiveElements.forEach(element => {
-        element.removeEventListener('mouseenter', handleCursorHover);
-        element.removeEventListener('mouseleave', handleCursorLeave);
-      });
-      
-      const textElements = document.querySelectorAll('h1, h2, h3, p');
-      textElements.forEach(element => {
-        element.removeEventListener('mouseenter', handleTextHover);
-        element.removeEventListener('mouseleave', handleTextLeave);
-      });
     };
   }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Custom Cursor */}
-      <div ref={cursorRef} className="custom-cursor"></div>
-      <div ref={cursorDotRef} className="cursor-dot"></div>
       {/* Hero Section */}
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Animated background with bubbles */}

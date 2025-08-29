@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
+import axios from "axios";
 
 interface Message {
   id: number;
@@ -103,31 +104,45 @@ export default function ChatBox() {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = inputValue;
     setInputValue("");
     setIsTyping(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      const aiResponses = [
-        "That's an interesting question! Let me help you with that.",
-        "I understand what you're looking for. Here's what I recommend:",
-        "Great question! Based on your needs, I'd suggest:",
-        "I can definitely help with that! Here's my advice:",
-        "That's a common challenge. Here's how to approach it:"
-      ];
+    try {
+      const response = await axios.post('http://localhost:8000/chat', {
+        message: currentInput
+      }, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        timeout: 30000
+      });
 
-      const randomResponse = aiResponses[Math.floor(Math.random() * aiResponses.length)];
-      
       const aiMessage: Message = {
         id: messages.length + 2,
-        text: randomResponse + " " + generateDetailedResponse(),
+        text: response.data.response || response.data.message || "I received your message!",
         sender: "ai",
         timestamp: new Date()
       };
 
       setMessages(prev => [...prev, aiMessage]);
+    } catch (error) {
+      console.error('Error calling chat API:', error);
+      
+      // Fallback to dummy response if API fails
+      const aiMessage: Message = {
+        id: messages.length + 2,
+        text: "I'm sorry, I'm having trouble connecting to my server right now. Please try again later.",
+        sender: "ai",
+        timestamp: new Date()
+      };
+
+      setMessages(prev => [...prev, aiMessage]);
+    } finally {
       setIsTyping(false);
-    }, 2000);
+    }
   };
 
   const generateDetailedResponse = () => {
